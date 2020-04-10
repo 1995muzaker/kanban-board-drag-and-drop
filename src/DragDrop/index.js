@@ -4,21 +4,18 @@ import {
   DroppableDiv,
   DraggableDiv,
   Header,
-  // AddTask,
-  // TaskInput,
-  // TaskButton,
 } from "../styles/drag";
 
 const tasksData = [
-  { name: "Task1", category: "wip", bgcolor: "yellow" },
-  { name: "pending task", category: "wip", bgcolor: "pink" },
-  { name: "Yesterday task", category: "complete", bgcolor: "skyblue" },
-  { name: "main task", category: "stuck", bgcolor: "skyblue" },
-  { name: "yet to decide", category: "empty", bgcolor: "skyblue" },
-  { name: "hello", category: "review", bgcolor: "skyblue" },
-  { name: "Serious bug", category: "bug", bgcolor: "skyblue" },
-  { name: "deadline to be done", category: "deadline", bgcolor: "skyblue" },
-  { name: "new task", category: "new", bgcolor: "skyblue" },
+  { name: "Task1", category: "progress", },
+  { name: "pending task", category: "progress", bgcolor: "pink" },
+  { name: "Yesterday task", category: "complete" },
+  { name: "main task", category: "stuck" },
+  { name: "yet to decide", category: "empty" },
+  { name: "hello", category: "review" },
+  { name: "Serious bug", category: "bug" },
+  { name: "deadline to be done", category: "deadline" },
+  { name: "new task", category: "new" },
 ];
 
 class DragDrop extends Component {
@@ -27,7 +24,6 @@ class DragDrop extends Component {
   };
 
   onDragStart = (ev, id) => {
-    console.log("dragstart:", id);
     ev.dataTransfer.setData("id", id);
   };
 
@@ -52,27 +48,9 @@ class DragDrop extends Component {
     });
   };
 
-  handleChange = (e) => {
-    this.setState({ task1: e.target.value });
-    //   this.state.task1.push(e)
-    console.log(this.state.task1);
-  };
-
-  onDeleteTag = (tag) => {
-    var tags = this.state.tags.filter((t) => {
-      return t !== tag;
-    });
-
-    console.log("tags: ", tags);
-
-    this.setState({
-      tags: tags,
-    });
-  };
-
   render() {
     var tasks = {
-      wip: [],
+      progress: [],
       complete: [],
       stuck: [],
       empty: [],
@@ -82,22 +60,12 @@ class DragDrop extends Component {
       new: []
     };
 
-    // const handleClick = (e) => {
-    //   let temp = tasks;
-    //   //   temp.push(e);
-    //   this.setState({
-    //     task1: temp,
-    //   });
-    //   console.log(this.state.task1);
-    // };
-
     tasksData.forEach((t) => {
       tasks[t.category].push(
         <DraggableDiv
           key={t.name}
           onDragStart={(e) => this.onDragStart(e, t.name)}
           draggable
-          //   style={{ backgroundColor: t.bgcolor }}
         >
           {t.name}
         </DraggableDiv>
@@ -109,33 +77,12 @@ class DragDrop extends Component {
         <DroppableDiv
           onDragOver={(e) => this.onDragOver(e)}
           onDrop={(e) => {
-            this.onDrop(e, "wip");
+            this.onDrop(e, "progress");
           }}
           style={{ backgroundColor: "#fdab3d" }}
         >
           <Header>Working on it</Header>
-          {tasks.wip}
-          {/* <AddTask>
-            <TaskInput
-              type="text"
-              placeholder="Add"
-              value={this.state.task1}
-              onChange={(event, i) => {
-                this.handleChange(event, i);
-              }}
-              //   style={iStyle}
-              //   onKeyUp={(e) => this.onKeyUp(e)}
-              //   type="text"
-              //   placeholder={this.props.placeholder}
-            />
-            <TaskButton
-              onClick={(e) => {
-                handleClick(e, 'wip');
-              }}
-            >
-              + Add
-            </TaskButton>
-          </AddTask> */}
+          {tasks.progress}
         </DroppableDiv>
 
         <DroppableDiv
