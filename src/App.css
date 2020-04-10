@@ -4,7 +4,7 @@
   margin: 15px auto;
 }
 
-.container-drag {
+/* .container-drag {
   text-align: center;
 }
 
@@ -48,4 +48,35 @@
   background-color: yellow;
   margin: 5px auto;
   line-height: 5em;
+} */
+
+.App main {
+  background-color: #383838;
+  color: #fff;
+  padding: 10px;
+}
+
+.App ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.App ul li {
+  background-color: #383838;
+  padding: 10px 20px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.App li .drag {
+  margin-right: 15px;
+  cursor: move;
+}
+
+.App li svg {
+  height: 2rem;
+  color: #fff;
 }

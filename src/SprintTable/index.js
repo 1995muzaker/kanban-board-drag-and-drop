@@ -1,61 +1,106 @@
-import React, { Component } from 'react';
-// import './App.css';
-import Table from './Table';
-import Form from './Form';
+import React from "react";
+import { TableDiv, HeaderList, PriorityDiv } from "../styles/TableDrag";
+import Avatar from "./avatar.png";
 
-// const tableData = [
-//     {title: 'Write online help', assignee: 'Muzaker', status: 'working on it', epic: 'Bug', priority: 'High', estimation: '1 days' },
-//     {title: 'Write online help', assignee: 'Muzaker', status: 'working on it', epic: 'Bug', priority: 'High', estimation: '1 days' },
-//     {title: 'Write online help', assignee: 'Muzaker', status: 'working on it', epic: 'Bug', priority: 'High', estimation: '1 days' }
-// ]
+class SprintTable extends React.Component {
+  state = {
+    items: [
+      {
+        title: "Write Online Help",
+        status: "Working on it",
+        epic: "Bug",
+        priority: "High",
+        estimation: "1 days",
+        color: "#e2445c",
+        assignColor: "#f9a93c",
+      },
+      {
+        title: "Add error logging",
+        status: "Working on it",
+        epic: "Bug",
+        priority: "High",
+        estimation: "1 days",
+        color: "#e2445c",
+        assignColor: "#f9a93c",
+      },
+      {
+        title: "Test the middle tier",
+        status: "Stuck",
+        epic: "Bug",
+        priority: "Medium",
+        estimation: "1 days",
+        color: "#833c80",
+        assignColor: "#e2445c",
+      },
+    ],
+  };
 
-class SprintTable extends Component {
-  constructor() {
-    super();
+  onDragStart = (e, index) => {
+    this.draggedItem = this.state.items[index];
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", e.target.parentNode);
+    e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
+  };
 
-    this.state = {
-      username: '',
-      password: '',
-      items: []
+  onDragOver = (index) => {
+    const draggedOverItem = this.state.items[index];
+
+    // if the item is dragged over itself, ignore
+    if (this.draggedItem === draggedOverItem) {
+      return;
     }
+
+    // filter out the currently dragged item
+    let items = this.state.items.filter((item) => item !== this.draggedItem);
+
+    // add the dragged item after the dragged over item
+    items.splice(index, 0, this.draggedItem);
+
+    this.setState({ items });
   };
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    let items = [...this.state.items];
-
-    items.push({
-      username: this.state.username,
-      password: this.state.password
-    });
-
-    this.setState({
-      items,
-      username: '',
-      password: ''
-    });
-  };
-
-  handleInputChange = (e) => {
-    let input = e.target;
-    let name = e.target.name;
-    let value = input.value;
-
-    this.setState({
-      [name]: value
-    })
+  onDragEnd = () => {
+    this.draggedIdx = null;
   };
 
   render() {
     return (
-      <div className="App">
-        <Table items={ this.state.items }/>
-        <Form handleFormSubmit={ this.handleFormSubmit }
-          handleInputChange={ this.handleInputChange }
-          newUsername={ this.state.username }
-          newPassword={ this.state.password } />
-      </div>
+      <TableDiv>
+        <main>
+          <h1>Table List Drag and Drop</h1>
+          <ul>
+            <HeaderList>
+              <span style={{ color: "#2196f3" }}>Sprint2 (This Week)</span>
+              <span>Assignee</span>
+              <span>Status</span>
+              <span>Epic</span>
+              <span>Priority</span>
+              <span>Estimation</span>
+            </HeaderList>
+            {this.state.items.map((item, idx) => (
+              <li key={item} onDragOver={() => this.onDragOver(idx)}>
+                <div
+                  className="drag"
+                  draggable
+                  onDragStart={(e) => this.onDragStart(e, idx)}
+                  onDragEnd={this.onDragEnd}
+                >
+                  <span>{item.title}</span>
+                  <span>
+                    <img src={Avatar} alt={'avatar'} />
+                  </span>
+                  <PriorityDiv colors={item.assignColor}>
+                    {item.status}
+                  </PriorityDiv>
+                  <span>{item.epic}</span>
+                  <PriorityDiv colors={item.color}>{item.priority}</PriorityDiv>
+                  <span>{item.estimation}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </main>
+      </TableDiv>
     );
   }
 }

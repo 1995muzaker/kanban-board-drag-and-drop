@@ -4,10 +4,12 @@ import "./index.css";
 // import App from './App';
 import * as serviceWorker from "./serviceWorker";
 import DragDrop from "./DragDrop";
+import SprintTable from "./SprintTable";
 
 ReactDOM.render(
   <React.StrictMode>
     <DragDrop />
+    <SprintTable />
   </React.StrictMode>,
   document.getElementById("root")
 );
