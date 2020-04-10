@@ -4,6 +4,7 @@ import {
   DroppableDiv,
   DraggableDiv,
   Header,
+  MainDiv,
 } from "../styles/drag";
 
 const tasksData = [
@@ -73,6 +74,8 @@ class DragDrop extends Component {
     });
 
     return (
+      <MainDiv>
+        <h1>Kanban Board - Drag and Drop</h1>
       <KanbanDiv>
         <DroppableDiv
           onDragOver={(e) => this.onDragOver(e)}
@@ -142,6 +145,7 @@ class DragDrop extends Component {
           {tasks.new}
         </DroppableDiv>
       </KanbanDiv>
+      </MainDiv>
     );
   }
 }

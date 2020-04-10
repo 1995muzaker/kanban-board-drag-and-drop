@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const MainDiv = styled.div`
+  && h1 {
+    padding: 20px;
+    width: 1140px;
+    margin: auto;
+  }
+`;
+
 export const KanbanDiv = styled.div`
   width: 100%;
   height: 100%;
